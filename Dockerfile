@@ -5,19 +5,20 @@ FROM python:3.11.0
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-# Set working directory
-WORKDIR /code
+# Set the working directory to /app
+WORKDIR /app
 
-# Copy requirements file to container
-COPY requirements.txt /code/
+# Copy the requirements file into the container and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Copy the application code into the container
+COPY . .
 
-# Copy project files to container
-COPY . /code/
+# Run database migrations
+RUN python manage.py migrate
 
-# Expose port 8000 to the outside world
+# Expose port 8000 for the Django application
 EXPOSE 8000
 
 # Start the Django development server
