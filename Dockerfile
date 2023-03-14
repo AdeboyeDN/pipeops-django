@@ -12,8 +12,6 @@ WORKDIR /code
 COPY requirements.txt /code/
 
 # Install dependencies
-RUN python -m venv env
-RUN env/bin/activate
 RUN pip install -r requirements.txt
 
 # Copy project files to container
